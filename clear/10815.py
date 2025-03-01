@@ -1,5 +1,5 @@
 '''
-    title: 숫자 카드 2
+    title: 숫자 카드 
     tag: merge sort, binary search, lower_bound, upper_bound
     
 

@@ -1,3 +1,12 @@
+/*
+    Quick Sort
+
+    average: O(nlogn)
+    worst: O(n^2)
+
+*/
+
+
 int partition(int* arr, int size, int start, int end) {
     int b = start; // big group index
     int s = start; // small group index

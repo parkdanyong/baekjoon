@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>응답 시간 측정</title>
+</head>
+<body>
+    <h2>서버 응답 시간 측정</h2>
+    <button onclick="measureResponseTime()">응답 시간 측정</button>
+    <p id="result">결과가 여기에 표시됩니다.</p>
+
+    <script>
+        async function measureResponseTime() {
+            const url = "https://sugang.dankook.ac.kr/images/login/btn_login.png";  // 측정할 서버 주소
+            let attempts = 5;  // 요청 횟수 (평균 계산)
+            let times = [];
+
+            for (let i = 0; i < attempts; i++) {
+                let startTime = performance.now(); // 요청 시작 시간
+                try {
+                    await fetch(url, { method: "GET", cache: "no-store", mode: "no-cors" }); 
+                    let endTime = performance.now(); // 응답 수신 시간
+                    let elapsedTime = endTime - startTime;
+                    times.push(elapsedTime);
+                } catch (error) {
+                    console.log("요청 실패:", error);
+                    times.push(9999); // 요청 실패 시 큰 값 추가
+                }
+            }
+
+            let avgTime = times.reduce((a, b) => a + b, 0) / attempts;
+            document.getElementById("result").innerText = `평균 응답 시간: ${avgTime.toFixed(2)}ms`;
+        }
+    </script>
+</body>
+</html>
