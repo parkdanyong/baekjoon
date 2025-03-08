@@ -65,7 +65,6 @@ int main() {
     arr[1] = 1;
 
 
-
     // answer
     int minVal = 0;
     int j = 0;

@@ -1,5 +1,5 @@
 /*
-    title: 사이클 게임
+    title: 세 용액
     tag: 
 */
 
@@ -12,6 +12,7 @@
 
 int main() {
     FILE* file = fopen("inputFile.txt", "r");
+    
     fclose(file);
 
 

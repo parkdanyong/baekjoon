@@ -1,10 +1,13 @@
 /*
-    Topological Sorting (위상 정렬)
+    title: 줄 세우기
+    tag: graph, Topological Sorting, DAG (Directed Acyclic Graph)
 */
+
 
 
 #include <stdio.h>
 #include <stdlib.h>
+
 
 
 typedef struct Node {
@@ -23,7 +26,7 @@ typedef struct CircularQueue {
 
 
 
-int n;
+int n, m;
 Node** AdjList;
 Node** rear;
 
@@ -130,4 +133,45 @@ void topologicalSort() {
     free(inDeg);
     free(cq->arr);
     free(cq);
+}
+
+
+int main() {
+    // FILE* file = fopen("inputFile.txt", "r");
+    // fscanf(file, "%d %d", &n, &m);
+    // AdjList = (Node**) malloc(sizeof(Node*)*(n+1));
+    // rear = (Node**) malloc(sizeof(Node*)*(n+1));
+    // initList();
+    // int v1, v2;
+    // for (int i = 0; i < m; i++) {
+    //     fscanf(file, "%d %d", &v1, &v2);
+    //     addPath(v1, v2);
+    // }
+    // topologicalSort();
+    // fclose(file);
+
+
+    // input
+    scanf("%d %d", &n, &m);
+
+
+    // init
+    AdjList = (Node**) malloc(sizeof(Node*)*(n+1));
+    rear = (Node**) malloc(sizeof(Node*)*(n+1));
+    initList();
+    int v1, v2;
+    for (int i = 0; i < m; i++) {
+        scanf("%d %d", &v1, &v2);
+        addPath(v1, v2);
+    }
+
+
+    // answer
+    topologicalSort();
+
+
+    clearList();
+    free(AdjList);
+    free(rear);
+    return 0;
 }
