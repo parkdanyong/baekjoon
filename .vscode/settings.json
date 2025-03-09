@@ -31,6 +31,7 @@
         "random": "c",
         "algorithm": "c",
         "math.h": "c",
-        "limits": "c"
+        "limits": "c",
+        "type_traits": "c"
     },
 }

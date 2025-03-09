@@ -38,3 +38,34 @@ int knapsack(stuff* arr, int n, int w) {
     free(bag);
     return result;
 }
+
+
+
+typedef struct Item {
+    double W;
+    double V;
+}Item;
+
+
+int compare(const void *arg1, const void *arg2) {
+    double a = ((Item*)arg1)->V / ((Item*)arg1)->W;
+    double b = ((Item*)arg2)->V / ((Item*)arg2)->W;
+    return (b > a) - (b < a); 
+}
+
+
+double fractionalKnapsack(Item* Items, int n, double capacity) {
+    qsort(Items, n, sizeof(Item), compare);
+    double totalValue = 0.0; 
+    for (int i = 0; i < n; i++) {
+        if (capacity >= Items[i].W) { 
+            capacity -= Items[i].W;
+            totalValue += Items[i].V;
+        }
+        else { 
+            totalValue += (Items[i].V / Items[i].W) * capacity;
+            break;
+        }
+    }
+    return totalValue;
+}
