@@ -1,5 +1,5 @@
 /*
-    title: 텀 프로젝트
+    title: 피리 부는 사나이
     tag: 
 */
 
@@ -12,6 +12,7 @@
 
 int main() {
     FILE* file = fopen("inputFile.txt", "r");
+    
     fclose(file);
 
 
