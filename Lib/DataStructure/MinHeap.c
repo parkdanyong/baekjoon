@@ -5,11 +5,11 @@ typedef struct Heap {
     int* arr;
     int size;
     int len;
-}heap;
+}Heap;
 
 
-heap* createHeap(int size) {
-    heap* minHeap = (heap*) malloc(sizeof(heap));
+Heap* createHeap(int size) {
+    Heap* minHeap = (Heap*) malloc(sizeof(Heap));
     minHeap->arr = (int*) malloc(sizeof(int)*size);
     minHeap->size = size;
     minHeap->len = 0;
@@ -17,7 +17,7 @@ heap* createHeap(int size) {
 }
 
 
-void freeHeap(heap* minHeap) {
+void freeHeap(Heap* minHeap) {
     free(minHeap->arr);
     free(minHeap);
 }
@@ -30,7 +30,7 @@ void swap(int* a, int* b) {
 }
 
 
-void append(heap* minHeap, int val) {
+void append(Heap* minHeap, int val) {
     if (minHeap->len + 1 >= minHeap->size) return;
 
     minHeap->len += 1;
@@ -69,7 +69,7 @@ void heapify(int* arr, int len, int cur) {
 }
 
 
-int delete(heap* minHeap) {
+int delete(Heap* minHeap) {
     if (minHeap->len == 0) return 0;
 
     int* arr = minHeap->arr;

@@ -6,3 +6,11 @@ backtracking
 
 
 bidirectional BFS
+
+
+P (Polynomial time) VS NP (Non-deterministic Polynomial time)
+P는 다항 시간 내에 해결할 수 있는 문제
+알고리즘을 사용해 빠르게(다항 시간 내) 답을 찾을 수 있는 문제
+
+NP는 답이 주어졌을 때 다항 시간 내에 검증할 수 있는 문제
+답을 찾는 것은 느릴 수도 있지만, 답이 주어졌을 때 그 답이 맞는지 빠르게 검증할 수 있는 문제
