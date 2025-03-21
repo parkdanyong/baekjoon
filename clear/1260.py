@@ -1,5 +1,5 @@
 '''
-    title: BFS와 DFS
+    title: DFS와 BFS
     tag: graph, BFS, DFS
 
     graph using list

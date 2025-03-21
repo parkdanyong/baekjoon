@@ -16,7 +16,6 @@
 typedef long long ll;
 
 
-
 typedef struct Node {
     ll key;
     ll count;

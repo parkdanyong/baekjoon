@@ -21,16 +21,16 @@
 typedef struct Stuff {
     int W;
     int V;
-}stuff;
+}Stuff;
 
 
-int knapsack(stuff* arr, int n, int w) {
+int knapsack(Stuff* items, int n, int w) {
     int* bag = (int*) calloc((n+1)*(w+1), sizeof(int));
 
     for (int i = 1; i <= n; i++) {
-        for (int w = 0; w <= w; w++) {
-            if (w < arr[i].W) bag[(w+1)*i + w] = bag[(w+1)*(i-1) + w];
-            else bag[(w+1)*i + w] = max(bag[(w+1)*(i-1) + w], bag[(w+1)*(i-1) + (w - arr[i].W)] + arr[i].V);
+        for (int j = 0; j <= w; j++) {
+            if (j < items[i].W) bag[i * (w+1) + j] = bag[(i-1) * (w+1) + j];
+            else bag[i * (w+1) + j] = max(bag[(i-1) * (w+1) + j], bag[(i-1) * (w+1) + (j - items[i].W)] + items[i].V);
         }
     }
 

@@ -39,3 +39,38 @@ int dp(int* sequence, int n) {
     free(arr);
     return maxLen;
 }
+
+
+
+int lowerBound(int* dp, int size, int target) {
+    int low = 0;
+    int high = size - 1;
+    int mid;
+    while (low + 1 < high) {
+        mid = low + (high - low) / 2;
+        if (dp[mid] >= target) high = mid;
+        else low = mid;
+    }
+    return low; 
+}
+
+
+int lengthOfLIS(int* nums, int n) {
+    if (n == 0) return 0;
+
+    int* dp = (int*) malloc(sizeof(int)*n);
+    int len = 0;
+
+    int pos;
+    for (int i = 0; i < n; i++) {
+        pos = lowerBound(dp, len, nums[i]);
+        dp[pos] = nums[i];  
+
+        if (pos == len) {
+            len += 1; 
+        }
+    }
+
+    free(dp);
+    return len;
+}

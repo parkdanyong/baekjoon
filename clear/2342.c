@@ -76,8 +76,8 @@ int main() {
         if (pos == 0) break;
         
         cur += 1;
-        for (int L = 0; L < 5; L++) {
-            for (int R = 0; R < 5; R++) {
+        for (int L = 0; L < 5; L++) { // pre left pos
+            for (int R = 0; R < 5; R++) { // pre right pos
                 // move left
                 if (pos != R) arr[cur][pos][R] = min(arr[cur][pos][R], arr[cur-1][L][R] + weight[L][pos]);
                 // move right
