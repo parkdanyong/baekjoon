@@ -51,3 +51,9 @@ node dequeue(CQ* cq) {
     cq->front = (cq->front + 1) % cq->size;
     return cq->arr[cq->front];
 }
+
+
+int getCount(CQ* cq) {
+    if (cq->front <= cq->rear) return cq->rear - cq->front;
+    else return cq->size + cq->rear - cq->front;
+}

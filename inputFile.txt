@@ -1,1 +1,8 @@
-ABACABA
+1
+5 5
+aaaaa
+aaaaa
+aa$aa
+aaaaa
+aaaaa
+a
