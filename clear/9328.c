@@ -1,6 +1,6 @@
 /*
     title: 열쇠 
-    tag: graph, BFS
+    tag: graph, BFS, DFS
 */
 
 
@@ -28,7 +28,7 @@ char* arr;
 int* keys;
 CQ* queue;
 int* visited;
-CQ* keep; // 지금 못 들어가는 문이 있으면 위치 저장
+CQ* keep; 
 
 
 
@@ -96,13 +96,12 @@ void addKey(char c) {
 }
 
 
-void move(int pos, int* paper) {
+void move(int pos) {
     if (isDoor(arr[pos]) && !hasKey(arr[pos])) {
+        visited[pos] = 2; // keep
         enqueue(keep, pos);
     }
     else {
-        if (isKey(arr[pos])) addKey(arr[pos]);
-        else if (arr[pos] == '$') *paper += 1;
         visited[pos] = 1;
         enqueue(queue, pos);
     }
@@ -114,7 +113,10 @@ int searchKeep() {
     int pos = 0;
     for (int i = 0; i < repeat; i++) {
         pos = dequeue(keep);
-        if (hasKey(arr[pos])) return pos;
+        if (hasKey(arr[pos])) {
+            visited[pos] = 1; // visit
+            return pos;
+        }
         enqueue(keep, pos);
     }
     return -1;
@@ -136,21 +138,26 @@ int bfs(int pos) {
             if (cur == -1) break;
         }
         else cur = dequeue(queue);
+        // printf("pos: %d\n", cur);
+
+
+        if (isKey(arr[cur])) addKey(arr[cur]);
+        else if (arr[cur] == '$') paper += 1;
         arr[cur] = '.';
         
 
         // push
         if (cur + 1 < size && cur % cols + 1 < cols) { // right
-            if (arr[cur + 1] != '*'&& visited[cur + 1] == 0) move(cur + 1, &paper);
+            if (arr[cur + 1] != '*' && visited[cur + 1] == 0) move(cur + 1);
         }
         if (0 <= cur - 1 && 0 <= cur % cols - 1) { // left
-            if (arr[cur - 1] != '*'&& visited[cur - 1] == 0) move(cur - 1, &paper);
+            if (arr[cur - 1] != '*' && visited[cur - 1] == 0) move(cur - 1);
         }
         if (0 <= cur - cols) { // up
-            if (arr[cur - cols] != '*'&& visited[cur - cols] == 0) move(cur - cols, &paper);
+            if (arr[cur - cols] != '*' && visited[cur - cols] == 0) move(cur - cols);
         }
         if (cur + cols < size) { // down
-            if (arr[cur + cols] != '*'&& visited[cur + cols] == 0) move(cur + cols, &paper);
+            if (arr[cur + cols] != '*' && visited[cur + cols] == 0) move(cur + cols);
         }
     }
     return paper;
@@ -159,30 +166,34 @@ int bfs(int pos) {
 
 int getStartPos() {
     for (int i = 0; i < cols; i++) {
-        if (visited[i] == 0) {
+        if (arr[i] != '*' && visited[i] != 1) {
             if (isDoor(arr[i])) {
-                
-            }
-            else if (isKey(arr[i])) {
-                
-            }
-            else return i;
+                if (hasKey(arr[i])) return i; 
+            } 
+            else return i; 
         }
-    }
-    for (int i = 1; i < rows-1; i++) {
-        
-    }
-    for (int i = 0; i < cols; i++) {
-        if (visited[cols*(rows-1) + i] == 0) {
-            if (isDoor(cols*(rows-1) + i)) {
-
-            }
-            else if (isKey(arr[cols*(rows-1) + i])) {
-
+        if (arr[cols*(rows-1) + i] != '*' && visited[cols*(rows-1) + i] != 1) {
+            if (isDoor(arr[cols*(rows-1) + i])) {
+                if (hasKey(arr[cols*(rows-1) + i])) return cols*(rows-1) + i;
             }
             else return cols*(rows-1) + i;
+        }    
+    }
+    for (int i = 1; i < rows-1; i++) {
+        if (arr[cols * i] != '*' && visited[cols * i] != 1) {
+            if (isDoor(arr[cols * i])) {
+                if (hasKey(arr[cols * i])) return cols * i;
+            }
+            else return cols * i;
+        }
+        if (arr[cols * i + cols - 1] != '*' && visited[cols * i + cols - 1] != 1) {
+            if (isDoor(arr[cols * i + cols - 1])) {
+                if (hasKey(arr[cols * i + cols - 1])) return cols * i + cols - 1;
+            }
+            else return cols * i + cols - 1;
         }
     }
+    return -1;
 }
 
 
@@ -196,31 +207,66 @@ int main() {
     keys = (int*) malloc(sizeof(int)*26); 
 
 
-    int flag;
+    int start;
     char k[50];
     int len;
     int ans = 0;
 
 
-    // // input
-    // scanf("%d", &T);
+    // input
+    scanf("%d", &T);
+    for (int t = 0; t < T; t++) {
+        scanf("%d %d", &rows, &cols);
+
+
+        size = rows * cols;
+        initCQ(keep);
+        memset(visited, 0, sizeof(int)*MAX_SIZE);
+        memset(keys, 0, sizeof(int)*26);
+
+
+        for (int i = 0; i < size; i++) {
+            scanf("%c", &arr[i]);
+            if (arr[i] == '\n') i -= 1;
+        }
+        scanf("%s", k);
+        if (k[0] != '0') {
+            len = strlen(k);
+            for (int i = 0; i < len; i++) {
+                addKey(k[i]);
+            }
+        }
+
+
+        // answer
+        ans = 0;
+        while (1) {
+            start = getStartPos();
+            if (start == -1) break;
+            ans += bfs(start);
+        }
+        printf("%d\n", ans);
+    }
+
+
+    // input
+    // FILE* file = fopen("inputFile.txt", "r");
+    // fscanf(file, "%d", &T);
     // for (int t = 0; t < T; t++) {
-    //     scanf("%d %d", &rows, &cols);
+    //     fscanf(file, "%d %d", &rows, &cols);
 
 
     //     size = rows * cols;
     //     initCQ(keep);
     //     memset(visited, 0, sizeof(int)*MAX_SIZE);
     //     memset(keys, 0, sizeof(int)*26);
-    //     entranceCount = -1;
 
 
     //     for (int i = 0; i < size; i++) {
-    //         scanf("%c", &arr[i]);
+    //         fscanf(file, "%c", &arr[i]);
     //         if (arr[i] == '\n') i -= 1;
-    //         else if (((i / cols) == 0 || (i / cols) == cols-1 || (i % cols == 0) || ((i+1) % cols == 0)) && arr[i] == '.') entracne[++entranceCount] = i;
     //     }
-    //     scanf("%s", k);
+    //     fscanf(file, "%s", k);
     //     if (k[0] != '0') {
     //         len = strlen(k);
     //         for (int i = 0; i < len; i++) {
@@ -231,54 +277,19 @@ int main() {
 
     //     // answer
     //     ans = 0;
-    //     for (int i = 0; i <= entranceCount; i++) {
-    //         ans += dfs(entracne[i]);
+    //     while (1) {
+    //         start = getStartPos();
+    //         if (start == -1) break;
+    //         ans += bfs(start);
     //     }
     //     printf("%d\n", ans);
     // }
-
-
-    // input
-    FILE* file = fopen("inputFile.txt", "r");
-    fscanf(file, "%d", &T);
-    for (int t = 0; t < T; t++) {
-        fscanf(file, "%d %d", &rows, &cols);
-
-
-        size = rows * cols;
-        initCQ(keep);
-        memset(visited, 0, sizeof(int)*MAX_SIZE);
-        memset(keys, 0, sizeof(int)*26);
-
-
-        for (int i = 0; i < size; i++) {
-            fscanf(file, "%c", &arr[i]);
-            if (arr[i] == '\n') i -= 1;
-        }
-        fscanf(file, "%s", k);
-        if (k[0] != '0') {
-            len = strlen(k);
-            for (int i = 0; i < len; i++) {
-                addKey(k[i]);
-            }
-        }
-
-
-        // answer
-        flag = 0;
-        ans = 0;
-        while (1) {
-            if (flag) break;
-            
-        }
-        printf("%d\n", ans);
-    }
-    fclose(file);
+    // fclose(file);
 
 
     free(arr);
     free(keys);
-    freE(queue->arr);
+    free(queue->arr);
     free(queue);
     free(visited);
     free(keep->arr);

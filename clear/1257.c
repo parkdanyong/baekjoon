@@ -1,33 +1,12 @@
 /*
-    Segment Tree
-
-    세그먼트 트리는 구간 쿼리(Range Query) 및 구간 업데이트(Range Update) 를 빠르게 수행하기 위한 트리 자료구조
-
-    Build 시간 복잡도: O(NlohN)
-
-    1. 트리 기반 구조
-        노드가 배열의 특정 구간 정보를 저장함.
-        루트 노드는 전체 배열의 정보를 저장함.
-
-    2. 빠른 쿼리 처리
-        구간 합(sum), 최댓값(max), 최솟값(min) 등의 질의를 O(log N) 에 해결 가능.
-        단순한 O(N) 브루트포스 접근보다 효율적.
-    
-    3. 빠른 업데이트
-        특정 원소 값을 변경하면 관련 노드만 O(log N) 에 업데이트됨.
-    
-    4. 구현 방식
-        보통 배열을 기반으로 한 완전 이진 트리로 표현됨.
-        일반적인 크기는 4N 정도의 배열을 사용.
+    title: 커피숍2
+    tag: segment tree
 */
 
 
 
 #include <stdio.h>
 #include <stdlib.h>
-
-
-#define MAX_SIZE 4000000
 
 
 typedef long long ll;
@@ -41,9 +20,7 @@ typedef struct SegmentTree { // 0-based index
 
 
 
-
 SegmentTree st;
-
 
 
 
@@ -97,19 +74,44 @@ void point_update(int index, ll value) {
 
 
 int main() {
-    int N = 10;
-    int* array = calloc(N, sizeof(int));
-    
+    // FILE* file = fopen("inputFile.txt", "r");
+    // int N, Q;
+    // fscanf(file, "%d %d", &N, &Q);
+    // ll* arr = (ll*) malloc(sizeof(ll)*N);
+    // for (int i = 0; i < N; i++) {
+    //     fscanf(file, "%lld", &arr[i]);
+    // }
+    // initSegmentTree(N);
+    // build(arr, 0, 0, N-1);
+    // int x, y, a, b;
+    // for (int i = 0; i < Q; i++) {
+    //     fscanf(file, "%d %d %d %d", &x, &y, &a, &b);
+    //     if (x <= y) printf("%lld\n", range_query(x-1, y-1));
+    //     else printf("%lld\n", range_query(y-1, x-1));
+    //     point_update(a-1, (ll) b);
+    // }
+    // fclose(file);
 
+
+    // input
+    int N, Q;
+    scanf("%d %d", &N, &Q);
+    ll* arr = (ll*) malloc(sizeof(ll)*N);
+    for (int i = 0; i < N; i++) {
+        scanf("%lld", &arr[i]);
+    }
     initSegmentTree(N);
-    build(array, 0, 0, N-1);
-    ll v1, v2;
-    // if tree is 1-based index, sub 1.
-    ll ans = range_query((int) v1-1, (int) v2-1);
-    point_update((int) v1-1, v2);
+    build(arr, 0, 0, N-1);
+    int x, y, a, b;
+    for (int i = 0; i < Q; i++) {
+        scanf("%d %d %d %d", &x, &y, &a, &b);
+        if (x <= y) printf("%lld\n", range_query(x-1, y-1));
+        else printf("%lld\n", range_query(y-1, x-1));
+        point_update(a-1, (ll) b);
+    }
 
 
-    free(array);
+    free(arr);
     free(st.tree);
     return 0;
 }

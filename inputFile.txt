@@ -1,8 +1,4 @@
-1
-5 5
-aaaaa
-aaaaa
-aa$aa
-aaaaa
-aaaaa
-a
+3
+2 2 2
+4 4 4
+8 8 8
