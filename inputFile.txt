@@ -1,3 +1,4 @@
-2
-warm any 5
-warm left 3
+3
+6
+20
+100
