@@ -14,7 +14,7 @@
 
 int main() {
     FILE* file = fopen("inputFile.txt", "r");
-   
+    
     fclose(file);
 
 
